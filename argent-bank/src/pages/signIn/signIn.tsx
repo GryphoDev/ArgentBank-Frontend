@@ -3,12 +3,12 @@ import { Form } from "../../components/form/form";
 import { loginUser } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../store/store";
+import { useNavigate } from "react-router-dom";
 
 export function SignIn() {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error, user } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { userInfo } = useSelector((state: RootState) => state.user);
   const fields = [
     {
       wrapperClass: "input-wrapper",
@@ -37,14 +37,23 @@ export function SignIn() {
     },
   ];
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const rememberMe = formData.get("remember-me");
     const userAuthData = {
       email: formData.get("username"),
       password: formData.get("password"),
     };
-    dispatch(loginUser(userAuthData));
+    await dispatch(loginUser(userAuthData));
+    if (userInfo) {
+      if (rememberMe) {
+        localStorage.setItem("token", userInfo.body.token);
+      } else {
+        sessionStorage.setItem("token", userInfo.body.token);
+      }
+      navigate("/profile");
+    }
   };
 
   return (

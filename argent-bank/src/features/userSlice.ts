@@ -7,7 +7,9 @@ interface UserData {
 }
 
 interface LoginResponse {
-  token: string;
+  status: number;
+  message: string;
+  body: { token: string };
 }
 
 export const loginUser = createAsyncThunk(
@@ -24,7 +26,7 @@ export const loginUser = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: null as LoginResponse | null,
+    userInfo: null as LoginResponse | null,
     loading: false,
     error: null as string | null,
   },
@@ -39,7 +41,7 @@ const userSlice = createSlice({
         loginUser.fulfilled,
         (state, action: PayloadAction<LoginResponse>) => {
           state.loading = false;
-          state.user = action.payload; // Stocke le token
+          state.userInfo = action.payload;
         }
       )
       .addCase(loginUser.rejected, (state, action) => {
