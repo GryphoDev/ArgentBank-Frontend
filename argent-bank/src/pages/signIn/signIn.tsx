@@ -1,4 +1,4 @@
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Form } from "../../components/form/form";
 import { loginUser } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 export function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const { userInfo } = useSelector((state: RootState) => state.user);
   const fields = [
     {
@@ -40,18 +41,18 @@ export function SignIn() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const rememberMe = formData.get("remember-me");
+    const rememberMe = formData.get("remember-me") === "on";
+    setRememberMe(rememberMe);
+
     const userAuthData = {
       email: formData.get("username"),
       password: formData.get("password"),
     };
     await dispatch(loginUser(userAuthData));
-    localStorage.setItem("rememberMe", rememberMe ? "true" : "false");
   };
 
   useEffect(() => {
     if (userInfo) {
-      const rememberMe = localStorage.getItem("rememberMe");
       if (rememberMe) {
         localStorage.setItem("token", userInfo.body.token);
       } else {
@@ -59,7 +60,7 @@ export function SignIn() {
       }
       navigate("/profile");
     }
-  }, [userInfo, navigate]);
+  }, [userInfo, navigate, rememberMe]);
 
   return (
     <main className="main bg-dark">
