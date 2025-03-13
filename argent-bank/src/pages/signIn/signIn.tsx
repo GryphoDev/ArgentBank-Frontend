@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import { Form } from "../../components/form/form";
 import { loginUser } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,7 +46,12 @@ export function SignIn() {
       password: formData.get("password"),
     };
     await dispatch(loginUser(userAuthData));
+    localStorage.setItem("rememberMe", rememberMe ? "true" : "false");
+  };
+
+  useEffect(() => {
     if (userInfo) {
+      const rememberMe = localStorage.getItem("rememberMe");
       if (rememberMe) {
         localStorage.setItem("token", userInfo.body.token);
       } else {
@@ -54,7 +59,7 @@ export function SignIn() {
       }
       navigate("/profile");
     }
-  };
+  }, [userInfo, navigate]);
 
   return (
     <main className="main bg-dark">

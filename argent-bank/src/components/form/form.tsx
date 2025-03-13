@@ -1,5 +1,7 @@
 import { FormEvent } from "react";
 import { Button } from "../button/button";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 type FormProps = {
   fields: {
@@ -22,6 +24,8 @@ export function Form({
   btnContainerClass,
   onSubmit,
 }: FormProps) {
+  const { error } = useSelector((state: RootState) => state.user);
+
   return (
     <form onSubmit={onSubmit}>
       {fields.map((field) => {
@@ -37,6 +41,7 @@ export function Form({
           </div>
         );
       })}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <div className={btnContainerClass}>
         {submitBtns.map((btn) => {
           return (
