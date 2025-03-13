@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Form } from "../../components/form/form";
-import { loginUser } from "../../features/userSlice";
+import { loginUser, fetchUserInfo } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../store/store";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,8 @@ export function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const { userInfo } = useSelector((state: RootState) => state.user);
+  const { authInfo } = useSelector((state: RootState) => state.user);
+  const { userDetails } = useSelector((state: RootState) => state.user);
   const fields = [
     {
       wrapperClass: "input-wrapper",
@@ -38,7 +39,7 @@ export function SignIn() {
     },
   ];
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const rememberMe = formData.get("remember-me") === "on";
@@ -48,19 +49,36 @@ export function SignIn() {
       email: formData.get("username"),
       password: formData.get("password"),
     };
-    await dispatch(loginUser(userAuthData));
+    dispatch(loginUser(userAuthData));
   };
 
   useEffect(() => {
-    if (userInfo) {
+    if (authInfo) {
       if (rememberMe) {
-        localStorage.setItem("token", userInfo.body.token);
+        localStorage.setItem("token", authInfo.body.token);
       } else {
-        sessionStorage.setItem("token", userInfo.body.token);
+        sessionStorage.setItem("token", authInfo.body.token);
+      }
+      dispatch(fetchUserInfo(authInfo.body.token));
+    }
+  }, [authInfo, rememberMe, dispatch]);
+
+  useEffect(() => {
+    if (userDetails) {
+      console.log("details");
+
+      if (rememberMe) {
+        localStorage.setItem("firstname", userDetails.body.firstName);
+        localStorage.setItem("lastname", userDetails.body.lastName);
+        localStorage.setItem("username", userDetails.body.userName);
+      } else {
+        sessionStorage.setItem("firstname", userDetails.body.firstName);
+        sessionStorage.setItem("lastname", userDetails.body.lastName);
+        sessionStorage.setItem("username", userDetails.body.userName);
       }
       navigate("/profile");
     }
-  }, [userInfo, navigate, rememberMe]);
+  }, [userDetails, rememberMe, navigate]);
 
   return (
     <main className="main bg-dark">

@@ -1,16 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../store/store";
 
 export function User() {
+  const { authenticate } = useSelector((state: RootState) => state.user);
+
+  const [firstname, setFirstname] = useState<string | null>(null);
+  const [lastname, setLastname] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
+  useEffect(() => {
+    setFirstname(localStorage.getItem("firstname"));
+    setLastname(localStorage.getItem("lastname"));
+    setUsername(localStorage.getItem("username"));
+  }, []);
+  console.log(username);
+
   const navigate = useNavigate();
-  const token =
-    localStorage.getItem("token") || sessionStorage.getItem("token");
 
   useEffect(() => {
-    if (!token) {
+    if (!authenticate) {
       navigate("/");
     }
-  }, [navigate, token]);
+  }, [navigate, authenticate]);
 
   return (
     <main className="main bg-dark">
@@ -18,7 +30,7 @@ export function User() {
         <h1>
           Welcome back
           <br />
-          Tony Jarvis!
+          {`${firstname} ${lastname}`}
         </h1>
         <button className="edit-button">Edit Name</button>
       </div>
