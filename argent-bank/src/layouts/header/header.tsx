@@ -1,10 +1,33 @@
 import logo from "/images/argentBankLogo.png";
 import { LinkWidhIcon } from "../../components/linkWithIcon/linkWithIcon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { logout } from "../../features/userSlice";
 
 export function Header() {
-  // TODO logic of links
-  // const isProfilePage = window.location.pathname === "/profile";
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.user);
+  const username = user.userDetails?.body.userName;
+  const navigate = useNavigate();
+  const [authenticate, setAuthenticate] = useState(false);
+
+  useEffect(() => {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    if (token) {
+      setAuthenticate(true);
+    }
+  }, [user.userDetails]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    dispatch(logout());
+    setAuthenticate(false);
+    navigate("/");
+  };
 
   return (
     <header className="main-nav">
@@ -17,11 +40,27 @@ export function Header() {
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <nav>
-        <LinkWidhIcon
-          location="./sign-in"
-          icon="fa fa-user-circle"
-          content=" Sign In "
-        />
+        {!authenticate ? (
+          <LinkWidhIcon
+            location="./sign-in"
+            icon="fa fa-user-circle"
+            content=" Sign In "
+          />
+        ) : (
+          <div>
+            <LinkWidhIcon
+              location="./profile"
+              icon="fa fa-user-circle"
+              content={` ${username} `}
+            />
+            <LinkWidhIcon
+              onClick={handleLogout}
+              location="./"
+              icon="fa fa-sign-out"
+              content=" Sign Out "
+            />
+          </div>
+        )}
       </nav>
     </header>
   );

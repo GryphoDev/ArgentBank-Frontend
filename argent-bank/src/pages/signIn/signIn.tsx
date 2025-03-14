@@ -52,6 +52,15 @@ export function SignIn() {
   };
 
   useEffect(() => {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
     if (authInfo) {
       if (rememberMe) {
         localStorage.setItem("token", authInfo.body.token);
