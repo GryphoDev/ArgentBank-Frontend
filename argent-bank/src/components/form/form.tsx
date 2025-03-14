@@ -9,13 +9,18 @@ type FormProps = {
     id: string;
     type: string;
     content: string;
+    placeholder?: string | undefined;
+    disabled?: boolean;
   }[];
   btnContainerClass?: string;
   submitBtns: {
     btnClass: string;
     content: string;
+    onClick?: () => void;
+    type?: "submit" | "button" | "reset";
   }[];
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
+  formClass?: string;
 };
 
 export function Form({
@@ -23,11 +28,12 @@ export function Form({
   submitBtns,
   btnContainerClass,
   onSubmit,
+  formClass,
 }: FormProps) {
   const { error } = useSelector((state: RootState) => state.user);
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className={formClass}>
       {fields.map((field) => {
         return (
           <div key={field.id} className={field.wrapperClass}>
@@ -36,6 +42,8 @@ export function Form({
               type={field.type}
               name={field.id}
               id={field.id}
+              placeholder={field.placeholder}
+              disabled={field.disabled}
               required={field.type !== "checkbox"}
             />
           </div>
@@ -49,6 +57,8 @@ export function Form({
               key={btn.content}
               btnClass={btn.btnClass}
               content={btn.content}
+              onClick={btn.onClick}
+              type={btn.type}
             />
           );
         })}

@@ -26,6 +26,11 @@ type UserInfoResponse = {
   };
 };
 
+interface EditUsernamePayload {
+  username: string;
+  token: string;
+}
+
 export const loginUser = createAsyncThunk(
   "user/login",
   async (userData: UserData): Promise<LoginResponse> => {
@@ -42,6 +47,23 @@ export const fetchUserInfo = createAsyncThunk(
   async (token: string): Promise<UserInfoResponse> => {
     const response = await axios.get(
       "http://localhost:3001/api/v1/user/profile",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  }
+);
+
+export const editUsername = createAsyncThunk(
+  "user/editUsername",
+  async ({
+    username,
+    token,
+  }: EditUsernamePayload): Promise<UserInfoResponse> => {
+    const response = await axios.put(
+      "http://localhost:3001/api/v1/user/profile",
+      { userName: username },
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -98,6 +120,21 @@ const userSlice = createSlice({
         state.error =
           action.error.message ||
           "An error occurred while fetching user details";
+      })
+      .addCase(editUsername.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        editUsername.fulfilled,
+        (state, action: PayloadAction<UserInfoResponse>) => {
+          state.loading = false;
+          state.userDetails = action.payload;
+        }
+      )
+      .addCase(editUsername.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+          action.error.message || "An error occurred while editing username";
       });
   },
 });
