@@ -54,17 +54,12 @@ export const fetchUserInfo = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    authenticate: false,
     authInfo: null as LoginResponse | null,
     userDetails: null as UserInfoResponse | null,
     loading: false,
     error: null as string | null,
   },
-  reducers: {
-    setAuthenticate: (state, action: PayloadAction<boolean>) => {
-      state.authenticate = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -102,5 +97,4 @@ const userSlice = createSlice({
   },
 });
 
-export const { setAuthenticate } = userSlice.actions;
 export default userSlice.reducer;

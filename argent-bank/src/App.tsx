@@ -2,15 +2,15 @@ import { useEffect } from "react";
 import { Router } from "./routes";
 import "./styles/global.css";
 import { useDispatch } from "react-redux";
-import { setAuthenticate } from "./features/userSlice";
+import { AppDispatch } from "./store/store";
+import { fetchUserInfo } from "./features/userSlice";
 
 function App() {
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) dispatch(setAuthenticate(true));
-    if (!token) localStorage.clear();
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    if (token) dispatch(fetchUserInfo(token));
   }, [dispatch]);
 
   return <Router />;

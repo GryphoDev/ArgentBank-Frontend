@@ -4,25 +4,28 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store/store";
 
 export function User() {
-  const { authenticate } = useSelector((state: RootState) => state.user);
-
-  const [firstname, setFirstname] = useState<string | null>(null);
-  const [lastname, setLastname] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  useEffect(() => {
-    setFirstname(localStorage.getItem("firstname"));
-    setLastname(localStorage.getItem("lastname"));
-    setUsername(localStorage.getItem("username"));
-  }, []);
-  console.log(username);
-
+  const user = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
+  const [userDetails, setUserDetails] = useState<{
+    firstName: string;
+    lastName: string;
+    userName: string;
+  } | null>(null);
 
   useEffect(() => {
-    if (!authenticate) {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    if (token) {
+      setUserDetails({
+        firstName: user.userDetails?.body.firstName || "",
+        lastName: user.userDetails?.body.lastName || "",
+        userName: user.userDetails?.body.userName || "",
+      });
+    } else {
       navigate("/");
     }
-  }, [navigate, authenticate]);
+  }, [setUserDetails, navigate, user.userDetails]);
 
   return (
     <main className="main bg-dark">
@@ -30,7 +33,7 @@ export function User() {
         <h1>
           Welcome back
           <br />
-          {`${firstname} ${lastname}`}
+          {`${userDetails?.firstName} ${userDetails?.lastName}`}
         </h1>
         <button className="edit-button">Edit Name</button>
       </div>

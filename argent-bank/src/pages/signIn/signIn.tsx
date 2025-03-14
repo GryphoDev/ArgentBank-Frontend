@@ -10,7 +10,6 @@ export function SignIn() {
   const dispatch = useDispatch<AppDispatch>();
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const { authInfo } = useSelector((state: RootState) => state.user);
-  const { userDetails } = useSelector((state: RootState) => state.user);
   const fields = [
     {
       wrapperClass: "input-wrapper",
@@ -60,25 +59,9 @@ export function SignIn() {
         sessionStorage.setItem("token", authInfo.body.token);
       }
       dispatch(fetchUserInfo(authInfo.body.token));
-    }
-  }, [authInfo, rememberMe, dispatch]);
-
-  useEffect(() => {
-    if (userDetails) {
-      console.log("details");
-
-      if (rememberMe) {
-        localStorage.setItem("firstname", userDetails.body.firstName);
-        localStorage.setItem("lastname", userDetails.body.lastName);
-        localStorage.setItem("username", userDetails.body.userName);
-      } else {
-        sessionStorage.setItem("firstname", userDetails.body.firstName);
-        sessionStorage.setItem("lastname", userDetails.body.lastName);
-        sessionStorage.setItem("username", userDetails.body.userName);
-      }
       navigate("/profile");
     }
-  }, [userDetails, rememberMe, navigate]);
+  }, [authInfo, rememberMe, dispatch, navigate]);
 
   return (
     <main className="main bg-dark">
