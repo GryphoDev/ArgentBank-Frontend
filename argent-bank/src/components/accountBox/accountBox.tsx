@@ -1,7 +1,6 @@
 import { Button } from "../button/button";
 
 type AccountBoxProps = {
-  onClick: () => void;
   title: string;
   amount: string;
   description: string;
@@ -10,7 +9,6 @@ type AccountBoxProps = {
 };
 
 export function AccountBox({
-  onClick,
   title,
   amount,
   description,
@@ -25,11 +23,7 @@ export function AccountBox({
         <p className="account-amount-description">{description}</p>
       </div>
       <div className="account-content-wrapper cta">
-        <Button
-          onClick={onClick}
-          btnClass={buttonClass}
-          content={buttonValue}
-        />
+        <Button btnClass={buttonClass} content={buttonValue} />
       </div>
     </section>
   );

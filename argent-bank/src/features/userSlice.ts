@@ -68,7 +68,6 @@ export const editUsername = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    console.log(response.data);
     return response.data;
   }
 );

@@ -42,7 +42,7 @@ export function Header() {
       <nav>
         {!authenticate ? (
           <LinkWidhIcon
-            location="./sign-in"
+            location="./login"
             icon="fa fa-user-circle"
             content=" Sign In "
           />

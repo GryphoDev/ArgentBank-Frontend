@@ -49,7 +49,12 @@ export function Form({
           </div>
         );
       })}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <p
+        style={{ color: "red", fontWeight: "bold" }}
+        className={`error-message ${error && "visible"}`}
+      >
+        {error && "Invalid username or password. Please try again."}
+      </p>
       <div className={btnContainerClass}>
         {submitBtns.map((btn) => {
           return (
