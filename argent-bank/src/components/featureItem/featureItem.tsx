@@ -1,8 +1,4 @@
-type featureItemProps = {
-  imageInfo: { src: string; alt: string };
-  title: string;
-  content: string;
-};
+import { featureItemProps } from "./type";
 
 export function FeatureItem({ imageInfo, title, content }: featureItemProps) {
   return (

@@ -7,10 +7,10 @@ import { AppDispatch, RootState } from "../../store/store";
 import { logout } from "../../features/userSlice";
 
 export function Header() {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.user);
   const username = user.userDetails?.body.userName;
-  const navigate = useNavigate();
   const [authenticate, setAuthenticate] = useState(false);
 
   useEffect(() => {

@@ -1,27 +1,7 @@
-import { FormEvent } from "react";
 import { Button } from "../button/button";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-
-type FormProps = {
-  fields: {
-    wrapperClass: string;
-    id: string;
-    type: string;
-    content: string;
-    placeholder?: string | undefined;
-    disabled?: boolean;
-  }[];
-  btnContainerClass?: string;
-  submitBtns: {
-    btnClass: string;
-    content: string;
-    onClick?: () => void;
-    type?: "submit" | "button" | "reset";
-  }[];
-  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
-  formClass?: string;
-};
+import { FormProps } from "./type";
 
 export function Form({
   fields,

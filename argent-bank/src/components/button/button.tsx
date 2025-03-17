@@ -1,11 +1,4 @@
-import { FormEvent } from "react";
-
-type ButtonProps = {
-  onClick?: (e: FormEvent) => void;
-  btnClass: string;
-  content: string;
-  type?: "submit" | "reset" | "button";
-};
+import { ButtonProps } from "./type";
 
 export function Button({ onClick, btnClass, content, type }: ButtonProps) {
   return (

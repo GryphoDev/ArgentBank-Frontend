@@ -1,12 +1,5 @@
 import { Button } from "../button/button";
-
-type AccountBoxProps = {
-  title: string;
-  amount: string;
-  description: string;
-  buttonClass: string;
-  buttonValue: string;
-};
+import { AccountBoxProps } from "./type";
 
 export function AccountBox({
   title,

@@ -1,11 +1,5 @@
 import { Link } from "react-router-dom";
-
-type LinkWidhIconPops = {
-  onClick?: () => void;
-  location: string;
-  icon: string;
-  content: string;
-};
+import { LinkWidhIconPops } from "./type";
 
 export function LinkWidhIcon({
   onClick,
