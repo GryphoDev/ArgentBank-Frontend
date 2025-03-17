@@ -9,17 +9,16 @@ import { fields, submitBtns } from "./data";
 export function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { authInfo } = useSelector((state: RootState) => state.user);
+  const { authInfo, isAuthenticated } = useSelector(
+    (state: RootState) => state.user
+  );
   const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   useEffect(() => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-
-    if (token) {
+    if (isAuthenticated) {
       navigate("/");
     }
-  }, [navigate]);
+  }, [navigate, isAuthenticated]);
 
   useEffect(() => {
     if (authInfo) {

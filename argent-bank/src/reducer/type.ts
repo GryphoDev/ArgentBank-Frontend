@@ -29,6 +29,7 @@ export type EditUsernamePayload = {
 };
 
 export type InitialStateType = {
+  isAuthenticated: boolean;
   authInfo: LoginResponse | null;
   userDetails: UserInfoResponse | null;
   loading: boolean;

@@ -46,6 +46,7 @@ export const editUsername = createAsyncThunk(
 );
 
 const initialState: InitialStateType = {
+  isAuthenticated: false,
   authInfo: null,
   userDetails: null,
   loading: false,
@@ -57,8 +58,14 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       state.authInfo = null;
       state.userDetails = null;
+      state.isAuthenticated = false;
+    },
+    isAuthenticate: (state) => {
+      state.isAuthenticated = true;
     },
   },
   extraReducers: (builder) => {
@@ -72,6 +79,7 @@ const userSlice = createSlice({
         (state, action: PayloadAction<LoginResponse>) => {
           state.loading = false;
           state.authInfo = action.payload;
+          state.isAuthenticated = true;
         }
       )
       .addCase(loginUser.rejected, (state, action) => {
@@ -113,5 +121,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, isAuthenticate } = userSlice.actions;
 export default userSlice.reducer;

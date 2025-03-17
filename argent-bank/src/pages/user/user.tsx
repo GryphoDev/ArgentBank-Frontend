@@ -18,10 +18,7 @@ export function User() {
   const [userDetails, setUserDetails] = useState<userDetailsProps | null>(null);
 
   useEffect(() => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-
-    if (token) {
+    if (user.isAuthenticated) {
       setUserDetails({
         firstName: user.userDetails?.body.firstName || "",
         lastName: user.userDetails?.body.lastName || "",
@@ -30,7 +27,7 @@ export function User() {
     } else {
       navigate("/");
     }
-  }, [setUserDetails, navigate, user.userDetails]);
+  }, [setUserDetails, navigate, user]);
 
   const handleCancel = () => {
     setEdit(false);
