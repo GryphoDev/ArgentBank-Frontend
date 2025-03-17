@@ -67,7 +67,7 @@ export function User() {
         <div className={`form-box ${edit ? "visible" : ""}`}>
           <Form
             fields={fields(userDetails)}
-            submitBtns={submitBtns}
+            submitBtns={submitBtns(handleCancel)}
             btnContainerClass={"btns-container-flex"}
             formClass={"form-container"}
             onSubmit={handleEdit}

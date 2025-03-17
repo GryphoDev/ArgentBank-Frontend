@@ -50,7 +50,7 @@ export const fields = (userDetails: userDetailsProps | null) => [
   },
 ];
 
-export const submitBtns = [
+export const submitBtns = (handleCancel: () => void) => [
   {
     btnClass: "sign-in-button",
     content: "Save",
@@ -59,7 +59,7 @@ export const submitBtns = [
   {
     btnClass: "sign-in-button",
     content: "Cancel",
-    onClick: () => {},
+    onClick: handleCancel,
     type: "button" as const,
   },
 ];
