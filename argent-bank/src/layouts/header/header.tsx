@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { logout } from "../../features/userSlice";
+import { logout } from "../../reducer/userSlice";
 
 export function Header() {
   const navigate = useNavigate();

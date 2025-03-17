@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import { AccountBox } from "../../components/accountBox/accountBox";
 import { Button } from "../../components/button/button";
 import { Form } from "../../components/form/form";
-import { editUsername } from "../../features/userSlice";
+import { editUsername } from "../../reducer/userSlice";
 import { accountBoxData, fields, submitBtns } from "./data";
 import { userDetailsProps } from "./type";
 

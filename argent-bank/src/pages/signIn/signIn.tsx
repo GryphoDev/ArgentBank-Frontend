@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Form } from "../../components/form/form";
-import { loginUser, fetchUserInfo } from "../../features/userSlice";
+import { loginUser, fetchUserInfo } from "../../reducer/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../store/store";
 import { useNavigate } from "react-router-dom";

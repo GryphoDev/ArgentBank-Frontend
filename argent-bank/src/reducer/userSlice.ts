@@ -1,43 +1,19 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import {
+  UserData,
+  LoginResponse,
+  UserInfoResponse,
+  EditUsernamePayload,
+  InitialStateType,
+} from "./type";
 
-type UserData = {
-  email: FormDataEntryValue | null;
-  password: FormDataEntryValue | null;
-};
-
-type LoginResponse = {
-  status: number;
-  message: string;
-  body: { token: string };
-};
-
-type UserInfoResponse = {
-  status: number;
-  message: string;
-  body: {
-    email: string;
-    firstName: string;
-    lastName: string;
-    userName: string;
-    createdAt: string;
-    updatedAt: string;
-    id: string;
-  };
-};
-
-interface EditUsernamePayload {
-  username: string;
-  token: string;
-}
+const url = "http://localhost:3001/api/v1/user";
 
 export const loginUser = createAsyncThunk(
   "user/login",
   async (userData: UserData): Promise<LoginResponse> => {
-    const response = await axios.post(
-      "http://localhost:3001/api/v1/user/login",
-      userData
-    );
+    const response = await axios.post(`${url}/login`, userData);
     return response.data;
   }
 );
@@ -45,12 +21,9 @@ export const loginUser = createAsyncThunk(
 export const fetchUserInfo = createAsyncThunk(
   "user/fetchUserInfo",
   async (token: string): Promise<UserInfoResponse> => {
-    const response = await axios.get(
-      "http://localhost:3001/api/v1/user/profile",
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const response = await axios.get(`${url}/profile`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   }
 );
@@ -62,7 +35,7 @@ export const editUsername = createAsyncThunk(
     token,
   }: EditUsernamePayload): Promise<UserInfoResponse> => {
     const response = await axios.put(
-      "http://localhost:3001/api/v1/user/profile",
+      `${url}/profile`,
       { userName: username },
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -72,14 +45,16 @@ export const editUsername = createAsyncThunk(
   }
 );
 
+const initialState: InitialStateType = {
+  authInfo: null,
+  userDetails: null,
+  loading: false,
+  error: null,
+};
+
 const userSlice = createSlice({
   name: "user",
-  initialState: {
-    authInfo: null as LoginResponse | null,
-    userDetails: null as UserInfoResponse | null,
-    loading: false,
-    error: null as string | null,
-  },
+  initialState,
   reducers: {
     logout: (state) => {
       state.authInfo = null;

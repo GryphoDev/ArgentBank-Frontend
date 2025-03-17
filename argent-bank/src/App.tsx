@@ -3,7 +3,7 @@ import { Router } from "./routes";
 import "./styles/global.css";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "./store/store";
-import { fetchUserInfo } from "./features/userSlice";
+import { fetchUserInfo } from "./reducer/userSlice";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
