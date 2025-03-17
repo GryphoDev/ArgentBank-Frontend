@@ -1,4 +1,4 @@
-import logo from "/images/argentBankLogo.png";
+import logo from "/images/argentBankLogo.webp";
 import { LinkWidhIcon } from "../../components/linkWithIcon/linkWithIcon";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

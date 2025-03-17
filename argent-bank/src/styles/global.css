@@ -79,14 +79,23 @@ body,
 }
 
 .hero {
-  background-image: url("/images/bank-tree.jpeg");
+  background-image: url("/images/bank-tree-large.webp");
   background-position: 0 -50px;
   background-size: cover;
   background-repeat: no-repeat;
   height: 300px;
   position: relative;
 }
-
+@media (width < 1200px) {
+  .hero {
+    background-image: url("/images/bank-tree-medium.webp");
+  }
+}
+@media (width < 768px) {
+  .hero {
+    background-image: url("/images/bank-tree-small.webp");
+  }
+}
 .hero-content {
   position: relative;
   top: 2rem;
