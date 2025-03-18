@@ -7,7 +7,6 @@ import { Button } from "../../components/button/button";
 import { Form } from "../../components/form/form";
 import { editUsername } from "../../reducer/userSlice";
 import { accountBoxData, fields, submitBtns } from "./data";
-import { userDetailsProps } from "./type";
 
 export function User() {
   const navigate = useNavigate();
@@ -15,19 +14,12 @@ export function User() {
 
   const user = useSelector((state: RootState) => state.user);
   const [edit, setEdit] = useState<boolean>(false);
-  const [userDetails, setUserDetails] = useState<userDetailsProps | null>(null);
 
   useEffect(() => {
-    if (user.isAuthenticated) {
-      setUserDetails({
-        firstName: user.userDetails?.body.firstName || "",
-        lastName: user.userDetails?.body.lastName || "",
-        userName: user.userDetails?.body.userName || "",
-      });
-    } else {
+    if (!user.isAuthenticated) {
       navigate("/");
     }
-  }, [setUserDetails, navigate, user]);
+  }, [navigate, user]);
 
   const handleCancel = () => {
     setEdit(false);
@@ -52,7 +44,7 @@ export function User() {
         <h1>
           Welcome back
           <br />
-          {`${userDetails?.firstName} ${userDetails?.lastName}`}
+          {`${user.userDetails?.body.firstName} ${user.userDetails?.body.lastName}`}
         </h1>
 
         <Button
@@ -62,13 +54,15 @@ export function User() {
         />
 
         <div className={`form-box ${edit ? "visible" : ""}`}>
-          <Form
-            fields={fields(userDetails)}
-            submitBtns={submitBtns(handleCancel)}
-            btnContainerClass={"btns-container-flex"}
-            formClass={"form-container"}
-            onSubmit={handleEdit}
-          />
+          {user.userDetails && (
+            <Form
+              fields={fields(user.userDetails.body)}
+              submitBtns={submitBtns(handleCancel)}
+              btnContainerClass={"btns-container-flex"}
+              formClass={"form-container"}
+              onSubmit={handleEdit}
+            />
+          )}
         </div>
       </div>
       <h2 className="sr-only">Accounts</h2>

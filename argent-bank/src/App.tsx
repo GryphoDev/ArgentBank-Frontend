@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { Router } from "./routes";
-import "./styles/global.css";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "./store/store";
 import { fetchUserInfo } from "./reducer/userSlice";
 import { isAuthenticate } from "./reducer/userSlice";
+import "./styles/global.css";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
