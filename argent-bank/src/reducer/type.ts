@@ -28,10 +28,15 @@ export type EditUsernamePayload = {
   token: string;
 };
 
-export type InitialStateType = {
+export type InitialUserStateType = {
+  userDetails: UserInfoResponse | null;
+  loading: boolean;
+  error: string | null;
+};
+
+export type InitialAuthStateType = {
   isAuthenticated: boolean;
   authInfo: LoginResponse | null;
-  userDetails: UserInfoResponse | null;
   loading: boolean;
   error: string | null;
 };

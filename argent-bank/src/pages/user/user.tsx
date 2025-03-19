@@ -12,14 +12,15 @@ export function User() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
+  const auth = useSelector((state: RootState) => state.auth);
   const user = useSelector((state: RootState) => state.user);
   const [edit, setEdit] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!user.isAuthenticated) {
+    if (!auth.isAuthenticated) {
       navigate("/");
     }
-  }, [navigate, user]);
+  }, [navigate, auth]);
 
   const handleCancel = () => {
     setEdit(false);

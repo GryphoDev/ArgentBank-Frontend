@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Form } from "../../components/form/form";
-import { loginUser, fetchUserInfo } from "../../reducer/userSlice";
+import { fetchUserInfo } from "../../reducer/userSlice";
+import { loginUser } from "../../reducer/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../store/store";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +11,7 @@ export function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { authInfo, isAuthenticated } = useSelector(
-    (state: RootState) => state.user
+    (state: RootState) => state.auth
   );
   const [rememberMe, setRememberMe] = useState<boolean>(false);
 
@@ -42,6 +43,7 @@ export function SignIn() {
       email: formData.get("username"),
       password: formData.get("password"),
     };
+
     dispatch(loginUser(userAuthData));
   };
 

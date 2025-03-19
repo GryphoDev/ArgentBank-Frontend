@@ -3,11 +3,12 @@ import { LinkWidhIcon } from "../../components/linkWithIcon/linkWithIcon";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { logout } from "../../reducer/userSlice";
+import { logout } from "../../reducer/authSlice";
 
 export function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const auth = useSelector((state: RootState) => state.auth);
   const user = useSelector((state: RootState) => state.user);
   const username = user.userDetails?.body.userName;
 
@@ -27,7 +28,7 @@ export function Header() {
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <nav>
-        {!user.isAuthenticated ? (
+        {!auth.isAuthenticated ? (
           <LinkWidhIcon
             location="./login"
             icon="fa fa-user-circle"

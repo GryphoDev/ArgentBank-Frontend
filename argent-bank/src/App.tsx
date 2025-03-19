@@ -3,7 +3,7 @@ import { Router } from "./routes";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "./store/store";
 import { fetchUserInfo } from "./reducer/userSlice";
-import { isAuthenticate } from "./reducer/userSlice";
+import { isAuthenticate } from "./reducer/authSlice";
 import "./styles/global.css";
 
 function App() {
