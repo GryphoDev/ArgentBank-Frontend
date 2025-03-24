@@ -10,7 +10,6 @@ export function Form({
   onSubmit,
   formClass,
 }: FormProps) {
-  // TODO manage error message on both forms
   const { error } = useSelector((state: RootState) => state.auth);
 
   return (

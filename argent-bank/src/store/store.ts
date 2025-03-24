@@ -4,8 +4,8 @@ import authReducer from "../reducer/authSlice";
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,
     auth: authReducer,
+    user: userReducer,
   },
 });
 
